@@ -3,11 +3,39 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/Agent%20Skill-Codex-blue.svg)](SKILL.md)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![CI](https://github.com/tzwkb/wecom-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/tzwkb/wecom-agent/actions/workflows/ci.yml)
+[![CI](https://github.com/bufferducky/wecom-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/bufferducky/wecom-agent/actions/workflows/ci.yml)
 
 [Documentation](https://wecom-agent.readthedocs.io/en/latest/) | English | [中文](README_ZH.md)
 
 Agent Skill — WeCom local-decrypt reading plus WecomTeam CLI/Bot operations for chat search, media/file discovery, todos, and online documents/sheets.
+
+## Fork Development
+
+This fork of [freanocank/wecom-agent](https://github.com/freanocank/wecom-agent), maintained by [bufferducky](https://github.com/bufferducky), starts further development under the upstream MIT license. The goal is to turn authorized chat conversations into traceable problems, then notify the operator and create or update issues according to explicit rules. Feedback and contributions are welcome.
+
+This update documents the direction and local validation only. Planned features below are not implemented. The general capability descriptions below are inherited from upstream; upstream documentation is a reference, while this repository records fork-specific progress.
+
+### Local Reading Validation
+
+On 2026-11-07, one local account was tested on Apple Silicon, macOS 15.7.9 and WeCom 5.0.13 (build 95049):
+
+- After an explicitly authorized temporary client-signature change, valid database keys were obtained and `Info.db` / `Session.db` were decrypted.
+- A small recent-message sample from one uniquely identified conversation matched the client preview. Message IDs stayed consistent across repeated reads, and the CLI returned valid JSON.
+- After restoring the original client signature and restarting, the saved key still worked for fresh decryption and reading.
+
+This is a single-device validation report, not an automated signing/restoration feature or a compatibility guarantee. Key capture used a locally adjusted scanner that has not been included in this fork. Live incremental collection, media completeness and long-term operation remain unverified. Reuse keys only while validation succeeds; client updates, sign-ins, account changes or database rebuilds require revalidation.
+
+### Roadmap
+
+| Area | Planned work | Status |
+|---|---|---|
+| Scoped collection | Conversation-ID allowlists, initial read bounds, incremental cursors and original message identities | Planned; upstream has basic monitoring |
+| Problem extraction | Identify recent problems, group related messages and retain timestamps, participants and source evidence | Planned |
+| Status tracking | Distinguish reported, in-progress, resolved and unconfirmed problems, with manual correction | Planned |
+| Notifications and issues | Configurable operator notifications, issue creation/updates, deduplication and retries | Planned |
+| Reliability and privacy | Key-expiry checks, recovery, collection boundaries, redacted logs and private artifacts | Planned; reuse upstream protections |
+
+Raw chats, keys, account details, decrypted databases and personal runtime logs are excluded from published development changes. Online writes require explicit authorization for their target, content and scope.
 
 ## Capabilities
 

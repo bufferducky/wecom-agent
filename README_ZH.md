@@ -3,11 +3,39 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/Agent%20Skill-Codex-blue.svg)](SKILL.md)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![CI](https://github.com/tzwkb/wecom-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/tzwkb/wecom-agent/actions/workflows/ci.yml)
+[![CI](https://github.com/bufferducky/wecom-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/bufferducky/wecom-agent/actions/workflows/ci.yml)
 
 [Documentation](https://wecom-agent.readthedocs.io/en/latest/) | [English](README.md) | 中文
 
 **Agent Skill** — 企业微信本地解密读取 + WecomTeam 官方 CLI/Bot 操作助手，支持历史聊天读取、通讯录/会话搜索、媒体/文档定位、待办和在线文档/表格流程。
+
+## 本 Fork：开始二次开发
+
+本仓库基于 [freanocank/wecom-agent](https://github.com/freanocank/wecom-agent) 开始二次开发，由 [bufferducky](https://github.com/bufferducky) 维护，保留上游 MIT 许可与来源。目标是将本人授权范围内的企微聊天整理成可追溯的问题，再按规则通知本人、创建或更新 Issue。欢迎围绕这些方向反馈和贡献。
+
+本次更新仅补充二开方向与验证记录，下列计划不代表功能已经实现。下文通用能力介绍沿用上游；上游文档站供参考，本 Fork 的进展以本仓库为准。
+
+### 已验证：本机消息读取
+
+2026-11-07，在 Apple Silicon、macOS 15.7.9、企业微信 5.0.13（build 95049）上完成一次本地验证：
+
+- 经本人授权临时处理客户端签名权限后取得有效数据库密钥，解密 `Info.db` 和 `Session.db`。
+- 按唯一会话读取少量近期消息，核对正文与客户端预览，连续读取的消息 ID 一致，CLI JSON 输出正常。
+- 恢复客户端原签名并重启后，复用已保存密钥重新解密、读取成功。
+
+这是单设备、单账号的验证记录，不是自动重签/恢复功能，也不保证其他版本兼容。取密钥时使用了本机临时调整的扫描脚本，尚未合入本 Fork。持续增量、媒体完整性与长期运行尚未完成真机验收。密钥有效期间可以复用；客户端升级、重新登录、换号或数据库重建后需重新校验。
+
+### 后续功能计划
+
+| 方向 | 计划内容 | 状态 |
+|---|---|---|
+| 指定会话采集 | 按会话 ID 设置白名单、首轮读取范围和增量游标，保留原始消息来源标识 | 待开发；上游已有基础监控 |
+| 问题提取 | 从指定群近期聊天中识别问题，合并同一话题，附时间、参与者与原消息证据 | 待开发 |
+| 状态跟踪 | 区分问题反馈、处理中、已解决和待确认，支持人工纠正 | 待开发 |
+| 通知与 Issue | 配置通知本人及创建/更新 Issue 的规则，处理重复触发与失败重试 | 待开发 |
+| 稳定性与隐私 | 密钥失效检测、异常恢复、采集范围约束、日志脱敏与私有产物管理 | 待开发；复用上游已有保护 |
+
+原始聊天、密钥、账号信息、解密库和个人运行日志不随二开代码发布。线上写操作须按明确授权的对象、内容与范围执行。
 
 ## 能力
 
